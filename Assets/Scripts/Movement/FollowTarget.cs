@@ -5,6 +5,11 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody2D))]
 public class FollowTarget : Physics2DObject
 {
+
+	public bool findWithTag = false;
+
+	public string tag;
+
 	// This is the target the object is going to move towards
 	public Transform target;
 
@@ -22,6 +27,9 @@ public class FollowTarget : Physics2DObject
 	void FixedUpdate ()
 	{
 		//do nothing if the target hasn't been assigned or it was detroyed for some reason
+		if(target == null)
+			if(findWithTag) target = GameObject.FindWithTag(tag);
+
 		if(target == null)
 			return;
 
