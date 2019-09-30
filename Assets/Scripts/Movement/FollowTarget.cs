@@ -28,7 +28,7 @@ public class FollowTarget : Physics2DObject
 	{
 		//do nothing if the target hasn't been assigned or it was detroyed for some reason
 		if(target == null)
-			if(findWithTag) target = GameObject.FindWithTag(tag);
+			if(findWithTag) target = GameObject.FindWithTag(tag).transform;
 
 		if(target == null)
 			return;
