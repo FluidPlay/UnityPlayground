@@ -28,7 +28,8 @@ public class Jump : Physics2DObject
 		if(canJump
 			&& Input.GetKeyDown(key))
 		{
-			// Apply an instantaneous upwards force
+            // Apply an instantaneous upwards force
+            rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.AddForce(Vector2.up * jumpStrength, ForceMode2D.Impulse);
 			canJump = !checkGround;
 		}
