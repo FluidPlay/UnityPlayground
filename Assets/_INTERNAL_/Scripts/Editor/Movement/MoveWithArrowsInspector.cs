@@ -6,7 +6,7 @@ using UnityEditor;
 [CustomEditor(typeof(Move))]
 public class MoveInspector : InspectorBase
 {
-	private string explanation = "The GameObject moves when pressing specific keys. Choose between Arrows or WASD.";
+	private string explanation = "The GameObject moves when pressing specific keys. Choose between Arrows or WASD. If 'Transform Movement' is off, it'll move with Physics.";
 	private string constraintsReminder = "If you want, you can constrain movement on the X/Y axes in the Rigidbody2D's properties.";
 
 	public override void OnInspectorGUI()
@@ -19,6 +19,7 @@ public class MoveInspector : InspectorBase
 
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("speed"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("movementType"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("transformMovement"));	
 
 		GUILayout.Space(5);
 		GUILayout.Label("Orientation", EditorStyles.boldLabel);

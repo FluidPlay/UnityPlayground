@@ -12,6 +12,7 @@ public class Move : Physics2DObject
 	[Tooltip("Speed of movement")]
 	public float speed = 5f;
 	public Enums.MovementType movementType = Enums.MovementType.AllDirections;
+	public bool transformMovement;
 
 	[Header("Orientation")]
 	public bool orientToDirection = false;
@@ -69,7 +70,10 @@ public class Move : Physics2DObject
 	// FixedUpdate is called every frame when the physics are calculated
 	void FixedUpdate ()
 	{
-		// Apply the force to the Rigidbody2d
-		rigidbody2D.AddForce(movement * speed * 10f);
+		if (transformMovement)
+			transform.Translate(movement * speed * 0.015f);
+		else
+			// Apply the force to the Rigidbody2d
+			rigidbody2D.AddForce(movement * speed * 10f);
 	}
 }

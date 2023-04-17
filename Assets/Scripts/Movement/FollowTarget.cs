@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Serialization;
 
 [AddComponentMenu("Playground/Movement/Follow Target")]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -8,7 +9,8 @@ public class FollowTarget : Physics2DObject
 
 	public bool findWithTag = false;
 
-	public string tag;
+	[FormerlySerializedAs("tag")] 
+	public string targetTag;
 
 	// This is the target the object is going to move towards
 	public Transform target;
@@ -28,7 +30,7 @@ public class FollowTarget : Physics2DObject
 	{
 		//do nothing if the target hasn't been assigned or it was detroyed for some reason
 		if(target == null)
-			if(findWithTag) target = GameObject.FindWithTag(tag).transform;
+			if(findWithTag) target = GameObject.FindWithTag(targetTag).transform;
 
 		if(target == null)
 			return;
