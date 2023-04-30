@@ -74,6 +74,7 @@ public class Move : Physics2DObject
 			transform.Translate(movement * speed * 0.015f);
 		else
 			// Apply the force to the Rigidbody2d
-			rigidbody2D.AddForce(movement * speed * 10f);
+			//rigidbody2D.AddForce(movement * speed * 10f);
+			rigidbody2D.velocity = movement * speed * 10f;
 	}
 }

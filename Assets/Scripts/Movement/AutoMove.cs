@@ -14,16 +14,18 @@ public class AutoMove : Physics2DObject
 	public bool relativeToRotation = true;
 
 	
-	// FixedUpdate is called once per frame
+	// FixedUpdate is called once per physics frame
 	void FixedUpdate ()
 	{
 		if(relativeToRotation)
 		{
 			rigidbody2D.AddRelativeForce(direction * 2f);
+			//TODO - Test/fix: rigidbody2D.velocity = transform.forward * direction;
 		}
 		else
 		{
-			rigidbody2D.AddForce(direction * 2f);
+			//rigidbody2D.AddForce(direction * 2f);
+			rigidbody2D.velocity = direction * 2f;
 		}
 	}
 
@@ -36,5 +38,12 @@ public class AutoMove : Physics2DObject
 			float extraAngle = (relativeToRotation) ? transform.rotation.eulerAngles.z : 0f;
 			Utils.DrawMoveArrowGizmo(transform.position, direction, extraAngle);
 		}
+	}
+
+	public void FlipDirection(bool X, bool Y)
+	{
+		var newDirection = new Vector2( X ? direction.x * -1 : direction.x, 
+										Y ? direction.y * -1 : direction.y);
+		direction = newDirection;
 	}
 }
