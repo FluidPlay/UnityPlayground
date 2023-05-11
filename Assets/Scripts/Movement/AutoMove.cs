@@ -9,26 +9,56 @@ public class AutoMove : Physics2DObject
 	// don't forget they can be negative too!
 	public Vector2 direction = new Vector2(1f, 0f);
 
-
 	//is the push relative or absolute to the world?
 	public bool relativeToRotation = true;
+	public bool stopMovement = false;
 
-	
-	// FixedUpdate is called once per physics frame
+	private Vector3 startPos;
+
+	void Awake()
+	{
+		startPos = transform.position;
+	}
+
+	// FixedUpdate is called once per frame
 	void FixedUpdate ()
 	{
+		if (stopMovement)
+			return;
+		if (rigidbody2D == null)
+			rigidbody2D = GetComponent<Rigidbody2D>();
 		if(relativeToRotation)
 		{
 			rigidbody2D.AddRelativeForce(direction * 2f);
-			//TODO - Test/fix: rigidbody2D.velocity = transform.forward * direction;
 		}
 		else
 		{
 			//rigidbody2D.AddForce(direction * 2f);
-			rigidbody2D.velocity = direction * 2f;
+			rigidbody2D.velocity = direction * 0.25f;
 		}
 	}
 
+	public void FlipDirectionX()
+	{
+		direction = new Vector2(-direction.x, direction.y);
+	}
+	
+	public void FlipDirectionY()
+	{
+		direction = new Vector2(direction.x, -direction.y);
+	}
+	
+	public void ResetPosition()
+	{
+		transform.position = startPos;
+	}
+
+	public void StopMovement(bool val)
+	{
+		stopMovement = val;
+		if (stopMovement)
+			rigidbody2D.velocity = Vector2.zero;
+	}	
 
 	//Draw an arrow to show the direction in which the object will move
 	void OnDrawGizmosSelected()
@@ -38,12 +68,5 @@ public class AutoMove : Physics2DObject
 			float extraAngle = (relativeToRotation) ? transform.rotation.eulerAngles.z : 0f;
 			Utils.DrawMoveArrowGizmo(transform.position, direction, extraAngle);
 		}
-	}
-
-	public void FlipDirection(bool X, bool Y)
-	{
-		var newDirection = new Vector2( X ? direction.x * -1 : direction.x, 
-										Y ? direction.y * -1 : direction.y);
-		direction = newDirection;
 	}
 }

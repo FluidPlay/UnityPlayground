@@ -36,6 +36,13 @@ public class UIScriptInspector : InspectorBase
 		//write all the properties back
 		serializedObject.FindProperty("gameType").intValue = gameType;
 		serializedObject.FindProperty("numberOfPlayers").intValue = nOfPlayers;
+		
+		bool useCustom = EditorGUILayout.Toggle("Use custom actions", serializedObject.FindProperty("useCustomActions").boolValue);
+		if(useCustom)
+		{
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("customActions"));
+		}
+		serializedObject.FindProperty("useCustomActions").boolValue = useCustom;		
 
 		if(GUI.changed)
 		{

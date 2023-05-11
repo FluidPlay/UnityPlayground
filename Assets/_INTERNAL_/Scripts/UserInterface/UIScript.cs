@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 [AddComponentMenu("")]
@@ -30,7 +31,15 @@ public class UIScript : MonoBehaviour
 	private int[] playersHealth = new int[2];
 	private Dictionary<int, ResourceStruct> resourcesDict = new Dictionary<int, ResourceStruct>(); //holds a reference to all the resources collected, and to their UI
     private bool gameOver = false; //this gets changed when the game is won OR lost
+    
+    // [SerializeField] public List<Action> P1WinActions = new List<Action>();
+    // [SerializeField] public List<Action> P2WinActions = new List<Action>();    
+    // [SerializeField] public List<Action> P1LoseActions = new List<Action>();
+    // [SerializeField] public List<Action> P2LoseActions = new List<Action>();
 
+    public bool useCustomActions = false;
+    public UnityEvent customActions;    
+    //[SerializeField] public List<Action> GameOverActions = new List<Action>();    
 
 	private void Start()
 	{
@@ -101,7 +110,13 @@ public class UIScript : MonoBehaviour
 		}
 	}
 
-
+	public void ExecuteGameOverActions()
+	{
+		if(useCustomActions)
+		{
+			customActions.Invoke();
+		}
+	}
 
 	public void GameWon(int playerNumber)
 	{
@@ -112,7 +127,8 @@ public class UIScript : MonoBehaviour
 			winLabel.text = "Player " + ++playerNumber + " wins!";
 			statsPanel.SetActive(false);
 			winPanel.SetActive(true);
-		}
+			ExecuteGameOverActions();
+	    }
 	}
 
 
@@ -125,6 +141,7 @@ public class UIScript : MonoBehaviour
 			gameOver = true;
 	        statsPanel.SetActive(false);
 	        gameOverPanel.SetActive(true);
+	        ExecuteGameOverActions();
 	    }
 	}
 

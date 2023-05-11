@@ -22,7 +22,25 @@ public class Move : Physics2DObject
 	private Vector2 movement, cachedDirection;
 	private float moveHorizontal;
 	private float moveVertical;
-
+	
+	private Vector3 startPos;
+	public bool stopMovement = false;	
+	
+	void Awake()
+	{
+		startPos = transform.position;
+	}
+	
+	public void ResetPosition()
+	{
+		transform.position = startPos;
+		rigidbody2D.velocity = Vector2.zero;
+	}
+	
+	public void StopMovement(bool val)
+	{
+		stopMovement = val;
+	}	
 
 	// Update gets called every frame
 	void Update ()
@@ -70,11 +88,12 @@ public class Move : Physics2DObject
 	// FixedUpdate is called every frame when the physics are calculated
 	void FixedUpdate ()
 	{
+		if (stopMovement)
+			return;
 		if (transformMovement)
 			transform.Translate(movement * speed * 0.015f);
 		else
 			// Apply the force to the Rigidbody2d
-			//rigidbody2D.AddForce(movement * speed * 10f);
-			rigidbody2D.velocity = movement * speed * 10f;
+			rigidbody2D.AddForce(movement * speed * 10f);
 	}
 }
