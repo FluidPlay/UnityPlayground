@@ -29,6 +29,8 @@ public class Move : Physics2DObject
 	void Awake()
 	{
 		startPos = transform.position;
+		if (rigidbody2D == null)
+			rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 	
 	public void ResetPosition()
@@ -70,7 +72,6 @@ public class Move : Physics2DObject
 			
 		movement = new Vector2(moveHorizontal, moveVertical);
 
-
 		//rotate the GameObject towards the direction of movement
 		//the axis to look can be decided with the "axis" variable
 		if(orientToDirection)
@@ -91,7 +92,8 @@ public class Move : Physics2DObject
 		if (stopMovement)
 			return;
 		if (transformMovement)
-			transform.Translate(movement * speed * 0.015f);
+			rigidbody2D.velocity = movement * speed;
+			//transform.Translate(movement * speed * 0.015f);
 		else
 			// Apply the force to the Rigidbody2d
 			rigidbody2D.AddForce(movement * speed * 10f);
